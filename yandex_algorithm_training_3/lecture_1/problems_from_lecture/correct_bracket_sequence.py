@@ -1,3 +1,7 @@
+"""
+Проверить является ли заданная скобочная последовательность правильной.
+"""
+
 from collections import deque
 
 CLOSING_BRACKETS: set[str] = {")", "]", "}"}
