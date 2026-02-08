@@ -3,33 +3,33 @@ from typing import Callable
 
 def calculate_constants(value_of_squares: list[list[int]]) -> tuple[int, int, int, int]:
     height: int = len(value_of_squares)
-    wide: int = len(value_of_squares[0])
+    width: int = len(value_of_squares[0])
 
     MAX_SQUARE_COST: int = 100
-    MAX_WAY_COST: int = MAX_SQUARE_COST * (height + wide - 1)
+    MAX_WAY_COST: int = MAX_SQUARE_COST * (height + width - 1)
     INFTY: int = MAX_WAY_COST + 1
 
-    return height, wide, INFTY, MAX_WAY_COST
+    return height, width, INFTY, MAX_WAY_COST
 
 
 def is_possible_to_pass(initial_money: int, value_of_squares: list[list[int]]) -> bool:
-    height, wide, INFTY, MAX_WAY_COST = calculate_constants(value_of_squares)
+    height, width, INFTY, MAX_WAY_COST = calculate_constants(value_of_squares)
 
-    board_cost: list[list[int]] = [[0] * (wide + 1)]
+    board_cost: list[list[int]] = [[0] * (width + 1)]
     for row_idx in range(height):
         board_cost.append([0] + value_of_squares[row_idx])
 
-    dp: list[list[int]] = [[INFTY] * (wide + 1) for _ in range(height + 1)]
+    dp: list[list[int]] = [[INFTY] * (width + 1) for _ in range(height + 1)]
     dp[0][1], dp[1][0] = 0, 0
     for raw_number in range(1, height + 1):
-        for column_number in range(1, wide + 1):
+        for column_number in range(1, width + 1):
             dp[raw_number][column_number] = (min(dp[raw_number - 1][column_number], dp[raw_number][column_number - 1]) +
                                              board_cost[raw_number][column_number]
                                              )
             if initial_money - dp[raw_number][column_number] < 0:
                 dp[raw_number][column_number] = INFTY
 
-    return dp[height][wide] < INFTY
+    return dp[height][width] < INFTY
 
 
 def binary_search(numbers: list[int], predicate: Callable[[int], bool]) -> int:
@@ -61,7 +61,7 @@ def calculate_required_money(values_of_squares: list[list[int]]) -> int:
     return required_money
 
 
-board_height, board_wide = map(int, input().split())
+board_height, board_width = map(int, input().split())
 
 board_values: list[list[int]] = []
 
